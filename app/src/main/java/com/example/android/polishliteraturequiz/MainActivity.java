@@ -97,49 +97,16 @@ public class MainActivity extends AppCompatActivity {
         szymborska = findViewById(R.id.szymborska_checkbox);
         sienkiewicz = findViewById(R.id.sienkiewicz_checkbox);
 
-        if (reymont.isChecked() && milosz.isChecked() && szymborska.isChecked() && sienkiewicz.isChecked()) {
-            points += 4;
-        }
-        else if (reymont.isChecked() && szymborska.isChecked() && sienkiewicz.isChecked()) {
-            points += 3;
-        }
-        else if (reymont.isChecked() && milosz.isChecked() && szymborska.isChecked()) {
-            points += 3;
-        }
-        else if (milosz.isChecked() && szymborska.isChecked() && sienkiewicz.isChecked()) {
-            points += 3;
-        }
-        else if (reymont.isChecked() && milosz.isChecked() && sienkiewicz.isChecked()) {
-            points += 3;
-        }
-        else if (reymont.isChecked() && szymborska.isChecked()) {
-            points += 2;
-        }
-        else if (szymborska.isChecked() && sienkiewicz.isChecked()) {
-            points += 2;
-        }
-        else if (milosz.isChecked() && szymborska.isChecked()) {
-            points += 2;
-        }
-        else if (reymont.isChecked() && sienkiewicz.isChecked()) {
-            points += 2;
-        }
-        else if (reymont.isChecked() && milosz.isChecked()) {
-            points += 2;
-        }
-        else if (milosz.isChecked() && sienkiewicz.isChecked()) {
-            points += 2;
-        }
-        else if (reymont.isChecked()) {
+        if (reymont.isChecked()) {
             points += 1;
         }
-        else if (milosz.isChecked()) {
+        if (milosz.isChecked()) {
             points += 1;
         }
-        else if (szymborska.isChecked()) {
+        if (szymborska.isChecked()) {
             points += 1;
         }
-        else if (sienkiewicz.isChecked()) {
+        if (sienkiewicz.isChecked()) {
             points += 1;
         }
 
@@ -207,4 +174,3 @@ public class MainActivity extends AppCompatActivity {
         walesa.setChecked(false);
     }
 }
-
