@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/space_18dp"
-        android:focusable="false">
+        android:padding="@dimen/space_18dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,8 +31,7 @@
             android:id="@+id/name_view"
             style="@style/EditablesStyle"
             android:hint="@string/name_hint"
-            android:inputType="textCapWords"
-            android:cursorVisible="false"/>
+            android:inputType="textCapWords" />
 
         <TextView
             style="@style/NumberQuestionStyle"
