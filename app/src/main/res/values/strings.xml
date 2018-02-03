@@ -49,5 +49,5 @@
     <string name="score_7_6">You\'ve got <xliff:g id="score" example="7">%d</xliff:g>/10. Well done, <xliff:g id="name" example="Anna">%s</xliff:g>! You like Polish culture, don\'t you?</string>
     <string name="score_5_4">You\'ve got <xliff:g id="score" example="5">%d</xliff:g>/10. Not bad, <xliff:g id="name" example="Anna">%s</xliff:g>. If you\'re not Polish, you can be proud of the result!</string>
     <string name="score_3_2_1">You\'ve got <xliff:g id="score" example="3">%d</xliff:g>/10. Were you guessing or you really know something, <xliff:g id="name" example="Anna">%s</xliff:g>?</string>
-    <string name="score_0">You\'ve got <xliff:g id="score" example="0">%d</xliff:g>/10. But don\'t worry, <xliff:g id="name" example="Anna">%s</xliff:g>. It isn\'t necessary to live.</string>
+    <string name="score_0">You\'ve got <xliff:g id="score" example="0">%d</xliff:g>/10. You know nothing. But don\'t worry, <xliff:g id="name" example="Anna">%s</xliff:g>. It isn\'t necessary to live.</string>
 </resources>
