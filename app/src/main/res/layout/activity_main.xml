@@ -73,9 +73,9 @@
         <EditText
             android:id="@+id/number_of_prizes"
             style="@style/EditablesStyle"
+            android:cursorVisible="false"
             android:hint="@string/question_2_hint"
-            android:inputType="number"
-            android:cursorVisible="false"/>
+            android:inputType="number" />
 
         <TextView
             style="@style/NumberQuestionStyle"
@@ -231,7 +231,7 @@
                 android:text="@string/thorgal" />
 
             <RadioButton
-                android:id="@+id/spideman_radiobutton"
+                android:id="@+id/spiderman_radiobutton"
                 style="@style/AnswersStyle"
                 android:text="@string/spider_man" />
 
@@ -241,14 +241,39 @@
                 android:text="@string/superman" />
         </RadioGroup>
 
-        <Button
-            style="@style/ButtonsStyle"
-            android:onClick="createMessage"
-            android:text="@string/submit_answers_button" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/reset_button"
+                style="@style/ButtonsStyle"
+                android:layout_marginRight="@dimen/space_12dp"
+                android:layout_weight="1"
+                android:background="@color/colorButtonLight"
+                android:onClick="resetQuiz"
+                android:text="@string/reset" />
+
+            <Button
+                android:id="@+id/submit_button"
+                style="@style/ButtonsStyle"
+                android:layout_marginLeft="@dimen/space_12dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:onClick="createScoreMessage"
+                android:text="@string/submit_answers_button"
+                android:textColor="@color/colorBackground" />
+        </LinearLayout>
 
         <Button
+            android:id="@+id/send_email_button"
             style="@style/ButtonsStyle"
-            android:onClick="resetQuiz"
-            android:text="@string/reset" />
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorButtonLight"
+            android:onClick="sendScore"
+            android:text="@string/share_score"
+            android:textSize="@dimen/size_12sp"
+            android:layout_marginBottom="@dimen/size_24sp"/>
     </LinearLayout>
 </ScrollView>
