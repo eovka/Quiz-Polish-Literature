@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     RadioButton spiderman;
     RadioButton superman;
     boolean submitPressed;
-    int resetClicks = 0;
+    boolean resetClicks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         thorgal = findViewById(R.id.thorgal_radiobutton);
         spiderman = findViewById(R.id.spiderman_radiobutton);
         superman = findViewById(R.id.superman_radiobutton);
+        resetClicks = false;
 
         // prevent from opening keyboard on creation
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -334,12 +335,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void resetQuiz(View v) {
         Button resetButton = findViewById(R.id.reset_button);
-
-        if (resetClicks == 0){
+        if (!resetClicks){
            displayResetWarning(getString(R.string.reset_warning));
             resetButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             resetButton.setTextColor(getResources().getColor(R.color.colorBackground));
-           resetClicks++;
+           resetClicks = true;
         } else {
         nameField.getText().clear();
         nobelPrizes.getText().clear();
@@ -374,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
         sendEmailButton.setTextColor(getResources().getColor(R.color.colorPrimaryText));
         resetButton.setBackgroundColor(getResources().getColor(R.color.colorButtonLight));
         resetButton.setTextColor(getResources().getColor(R.color.colorPrimaryText));
-        resetClicks = 0;
+        resetClicks = false;
         submitPressed = false;
         }
     }
