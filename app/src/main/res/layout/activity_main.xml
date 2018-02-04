@@ -221,9 +221,9 @@
             android:layout_height="wrap_content">
 
             <RadioButton
-                android:id="@+id/asterix_radiobutton"
+                android:id="@+id/wolverine_radiobutton"
                 style="@style/AnswersStyle"
-                android:text="@string/asterix" />
+                android:text="@string/wolverine" />
 
             <RadioButton
                 android:id="@+id/thorgal_radiobutton"
