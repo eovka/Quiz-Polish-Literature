@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     RadioButton brzechwa;
     EditText mickiewicz;
     RadioGroup comicGroup;
-    RadioButton asterix;
+    RadioButton wolverine;
     RadioButton thorgal;
     RadioButton spiderman;
     RadioButton superman;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         tuwim = findViewById(R.id.tuwim_radiobutton);
         brzechwa = findViewById(R.id.brzechwa_radiobutton);
         mickiewicz = findViewById(R.id.adam_mickiewicz_edittext);
-        asterix = findViewById(R.id.asterix_radiobutton);
+        wolverine = findViewById(R.id.wolverine_radiobutton);
         thorgal = findViewById(R.id.thorgal_radiobutton);
         spiderman = findViewById(R.id.spiderman_radiobutton);
         superman = findViewById(R.id.superman_radiobutton);
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         allButtons.add(gombrowicz);
         allButtons.add(tuwim);
         allButtons.add(brzechwa);
-        allButtons.add(asterix);
+        allButtons.add(wolverine);
         allButtons.add(thorgal);
         allButtons.add(spiderman);
         allButtons.add(superman);
@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
             outState.putInt("focusID", focusID);
             outState.putInt("cursorLoc", cursorLoc);
         }
-
     }
 
     /**
@@ -298,6 +297,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays message in a toast after clicking "send" button while "submit" hadn't been yet clicked.
+     */
     private void displayMessageTooSoon(String shareTooSoon) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
@@ -305,6 +307,9 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
     }
 
+    /**
+     * This method and creates the e-mail text.
+     */
     private String createMailText() {
         int score = calculateScore();
         String name = nameField.getText().toString();
@@ -330,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * This method creates a toast message after clicking share to early.
+     * What happens when "reset" button is clicked for the first and second time.
      */
 
     public void resetQuiz(View v) {
@@ -379,6 +384,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * It displays warning after the first click "Reset" button.
+     */
     private void displayResetWarning(String warningReset) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
