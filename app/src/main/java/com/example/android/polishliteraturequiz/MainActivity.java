@@ -13,8 +13,11 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     RadioButton thirteenthCentury;
     RadioButton fifteenthCentury;
     EditText nobelPrizes;
+    TextView correctAnswer2;
     CheckBox lem;
     CheckBox reymont;
     CheckBox milosz;
@@ -43,13 +47,19 @@ public class MainActivity extends AppCompatActivity {
     RadioButton tuwim;
     RadioButton brzechwa;
     EditText mickiewicz;
+    TextView correctAnswer6;
     RadioGroup comicGroup;
     RadioButton wolverine;
     RadioButton thorgal;
     RadioButton spiderman;
     RadioButton superman;
+    Button resetButton;
+    Button sendEmail;
     boolean submitPressed;
     boolean resetClicks;
+    List<CompoundButton> allButtons = new ArrayList<>();
+    ArrayList<CompoundButton> rightAnswers = new ArrayList<>();
+    ArrayList<CompoundButton> wrongButtons = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         thirteenthCentury = findViewById(R.id.thirteenth_century);
         fifteenthCentury = findViewById(R.id.fifteenth_century);
         nobelPrizes = findViewById(R.id.number_of_prizes);
+        correctAnswer2 = findViewById(R.id.correct_2);
         lem = findViewById(R.id.lem_checkbox);
         reymont = findViewById(R.id.reymont_checkbox);
         milosz = findViewById(R.id.milosz_checkbox);
@@ -70,26 +81,31 @@ public class MainActivity extends AppCompatActivity {
         herbert = findViewById(R.id.herbert_checkbox);
         sienkiewicz = findViewById(R.id.sienkiewicz_checkbox);
         walesa = findViewById(R.id.walesa_checkbox);
+        fantasyGroup = findViewById(R.id.fantasy_group);
         gollum = findViewById(R.id.gollum_radiobutton);
         kingArthur = findViewById(R.id.king_arthur_radiobutton);
         witcher = findViewById(R.id.witcher_radiobutton);
         reaperMan = findViewById(R.id.reaper_man_radiobutton);
+        poetsGroup = findViewById(R.id.poets_group);
         lesmian = findViewById(R.id.lesmian_radiobutton);
         gombrowicz = findViewById(R.id.gombrowicz_radiobutton);
         tuwim = findViewById(R.id.tuwim_radiobutton);
         brzechwa = findViewById(R.id.brzechwa_radiobutton);
         mickiewicz = findViewById(R.id.adam_mickiewicz_edittext);
+        correctAnswer6 = findViewById(R.id.correct_6);
+        comicGroup = findViewById(R.id.comic_group);
         wolverine = findViewById(R.id.wolverine_radiobutton);
         thorgal = findViewById(R.id.thorgal_radiobutton);
         spiderman = findViewById(R.id.spiderman_radiobutton);
         superman = findViewById(R.id.superman_radiobutton);
+        resetButton = findViewById(R.id.reset_button);
+        sendEmail = findViewById(R.id.send_email_button);
         resetClicks = false;
 
         // prevent from opening keyboard on creation
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        // create list of all buttons
-        ArrayList<CompoundButton> allButtons = new ArrayList<>();
+        // add elements to All Buttons list
         allButtons.add(tenthCentury);
         allButtons.add(thirteenthCentury);
         allButtons.add(fifteenthCentury);
@@ -114,7 +130,34 @@ public class MainActivity extends AppCompatActivity {
         allButtons.add(spiderman);
         allButtons.add(superman);
 
-    // allows RadioButtons, CheckBoxes stay focusableInTouchMode without need to click twice to check them
+        // buttons - wrong answers
+        wrongButtons.add(tenthCentury);
+        wrongButtons.add(fifteenthCentury);
+        wrongButtons.add(lem);
+        wrongButtons.add(bauman);
+        wrongButtons.add(herbert);
+        wrongButtons.add(walesa);
+        wrongButtons.add(gollum);
+        wrongButtons.add(kingArthur);
+        wrongButtons.add(reaperMan);
+        wrongButtons.add(lesmian);
+        wrongButtons.add(gombrowicz);
+        wrongButtons.add(tuwim);
+        wrongButtons.add(wolverine);
+        wrongButtons.add(spiderman);
+        wrongButtons.add(superman);
+
+        // buttons - good answers
+        rightAnswers.add(thirteenthCentury);
+        rightAnswers.add(reymont);
+        rightAnswers.add(milosz);
+        rightAnswers.add(szymborska);
+        rightAnswers.add(sienkiewicz);
+        rightAnswers.add(witcher);
+        rightAnswers.add(brzechwa);
+        rightAnswers.add(thorgal);
+
+        // allows RadioButtons, CheckBoxes stay focusableInTouchMode without need to click twice to check them
         for (int i = 0; i < 23; i++) {
             allButtons.get(i).setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 public void onFocusChange(View v, boolean hasFocus) {
@@ -124,57 +167,76 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+        // restore - were "Submit" or "Reset" pressed or not? if yes, do what needed after rotation
+        if (savedInstanceState != null) {
+            submitPressed = savedInstanceState.getBoolean("isSubmitted");
+            if (submitPressed) {
+                sendEmail.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                sendEmail.setTextColor(getResources().getColor(R.color.colorBackground));
+                giveColorToAnswers();
+            }
+            resetClicks = savedInstanceState.getBoolean("resetClicked");
+            if (resetClicks) {
+                resetButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                resetButton.setTextColor(getResources().getColor(R.color.colorBackground));
+            }
+        }
     }
 
     /**
-     * This method set focus on the last answer a user gave.
+     * This method sets focus on the last answer a user gave
+     * and saves the state - remembers if "reset" or "submit" were clicked
      */
     @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         View focusedChild = getCurrentFocus();
 
-        if (focusedChild != null)
-        {
+        if (focusedChild != null) {
             int focusID = focusedChild.getId();
             int cursorLoc = 0;
 
-            if (focusedChild instanceof EditText)
-            {
+            if (focusedChild instanceof EditText) {
                 cursorLoc = ((EditText) focusedChild).getSelectionStart();
             }
 
             outState.putInt("focusID", focusID);
             outState.putInt("cursorLoc", cursorLoc);
+            outState.putBoolean("isSubmitted", submitPressed);
+            outState.putBoolean("resetClicked", resetClicks);
         }
     }
 
     /**
-     * This method finds the last given answer before rotation and sets the screen
-     * on this view after a phone rotated (not to last EditText as without it).
+     * This method finds the last given answer before rotation and again sets the screen
+     * on this view. Also if "reset" or "submit" button were clicked,
+     * repeats what was done after click (changes button color, shows wrong and correct answers)
      */
     @Override
-    protected void onRestoreInstanceState(Bundle inState)
-    {
+    protected void onRestoreInstanceState(Bundle inState) {
         super.onRestoreInstanceState(inState);
 
         int focusID = inState.getInt("focusID", View.NO_ID);
 
         View focusedChild = findViewById(focusID);
-        if (focusedChild != null)
-        {
+        if (focusedChild != null) {
             focusedChild.requestFocus();
 
-            if (focusedChild instanceof EditText)
-            {
+            if (focusedChild instanceof EditText) {
                 int cursorLoc = inState.getInt("cursorLoc", 0);
                 ((EditText) focusedChild).setSelection(cursorLoc);
             }
         }
-    }
-
+        inState.getBoolean("isSubmitted");
+        if (submitPressed) {
+            giveColorToAnswers();
+        }
+        inState.getBoolean("resetClicked");
+        if (resetClicks) {
+            resetButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            resetButton.setTextColor(getResources().getColor(R.color.colorBackground));
+        }
+   }
 
     /**
      * This method shows an appropriate text in a toast.
@@ -199,10 +261,41 @@ public class MainActivity extends AppCompatActivity {
             displayToastMessage(getString(R.string.score_0, score, name));
         }
         submitPressed = true;
-        Button sendEmail = findViewById(R.id.send_email_button);
         sendEmail.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         sendEmail.setTextColor(getResources().getColor(R.color.colorBackground));
+
+        giveColorToAnswers();
     }
+
+    private void giveColorToAnswers() {
+        // good answers turn green - showing right answers
+        for (int i = 0; i < 8; i++) {
+            rightAnswers.get(i).setTextColor(getResources().getColor(R.color.colorCorrect));
+        }
+        // wrong answers in CompoundButtons turn red
+        for (int i = 0; i < 15; i++) {
+            if (wrongButtons.get(i).isChecked()) {
+                wrongButtons.get(i).setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            }
+        }
+
+        // EditTexts (Q2 and Q6): good answers --> green, bad --> red
+        String answerTwo = nobelPrizes.getText().toString();
+        if (answerTwo.equals("4")) {
+            nobelPrizes.setTextColor(getResources().getColor(R.color.colorCorrect));
+        } else {
+            nobelPrizes.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            correctAnswer2.setText(getString(R.string.four));
+        }
+
+        String answerSix = mickiewicz.getText().toString();
+        if (answerSix.equalsIgnoreCase("adam mickiewicz") || answerSix.equalsIgnoreCase("adam mickiewicz ")) {
+            mickiewicz.setTextColor(getResources().getColor(R.color.colorCorrect));
+        } else {
+            mickiewicz.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            correctAnswer6.setText(getString(R.string.adam_mickiewicz));
+        }
+}
 
     /**
      * Check the answers and calculate the score. It's called in createScoreMessage method.
@@ -339,48 +432,33 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void resetQuiz(View v) {
-        Button resetButton = findViewById(R.id.reset_button);
-        if (!resetClicks){
-           displayResetWarning(getString(R.string.reset_warning));
+        if (!resetClicks) {
+            displayResetWarning(getString(R.string.reset_warning));
             resetButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             resetButton.setTextColor(getResources().getColor(R.color.colorBackground));
-           resetClicks = true;
+            resetClicks = true;
         } else {
-        nameField.getText().clear();
-        nobelPrizes.getText().clear();
-        mickiewicz.getText().clear();
-        centuriesGroup = findViewById(R.id.century_group);
-        centuriesGroup.clearCheck();
-        fantasyGroup = findViewById(R.id.fantasy_group);
-        fantasyGroup.clearCheck();
-        poetsGroup = findViewById(R.id.poets_group);
-        poetsGroup.clearCheck();
-        comicGroup = findViewById(R.id.comic_group);
-        comicGroup.clearCheck();
-        lem = findViewById(R.id.lem_checkbox);
-        reymont = findViewById(R.id.reymont_checkbox);
-        milosz = findViewById(R.id.milosz_checkbox);
-        bauman = findViewById(R.id.bauman_checkbox);
-        szymborska = findViewById(R.id.szymborska_checkbox);
-        herbert = findViewById(R.id.herbert_checkbox);
-        sienkiewicz = findViewById(R.id.sienkiewicz_checkbox);
-        walesa = findViewById(R.id.walesa_checkbox);
-        lem.setChecked(false);
-        reymont.setChecked(false);
-        milosz.setChecked(false);
-        bauman.setChecked(false);
-        szymborska.setChecked(false);
-        herbert.setChecked(false);
-        sienkiewicz.setChecked(false);
-        walesa.setChecked(false);
+            nameField.getText().clear();
+            nobelPrizes.getText().clear();
+            correctAnswer2.setText("");
+            mickiewicz.getText().clear();
+            correctAnswer6.setText("");
 
-        Button sendEmailButton = findViewById(R.id.send_email_button);
-        sendEmailButton.setBackgroundColor(getResources().getColor(R.color.colorButtonLight));
-        sendEmailButton.setTextColor(getResources().getColor(R.color.colorPrimaryText));
-        resetButton.setBackgroundColor(getResources().getColor(R.color.colorButtonLight));
-        resetButton.setTextColor(getResources().getColor(R.color.colorPrimaryText));
-        resetClicks = false;
-        submitPressed = false;
+            for (int i = 0; i < 23; i++) {
+                allButtons.get(i).setTextColor(getResources().getColor(R.color.colorSecondaryText));
+                allButtons.get(i).setChecked(false);
+            }
+            nobelPrizes.setTextColor(getResources().getColor(R.color.colorSecondaryText));
+            mickiewicz.setTextColor(getResources().getColor(R.color.colorSecondaryText));
+            nameField.requestFocus();
+
+            Button sendEmailButton = findViewById(R.id.send_email_button);
+            sendEmailButton.setBackgroundColor(getResources().getColor(R.color.colorButtonLight));
+            sendEmailButton.setTextColor(getResources().getColor(R.color.colorPrimaryText));
+            resetButton.setBackgroundColor(getResources().getColor(R.color.colorButtonLight));
+            resetButton.setTextColor(getResources().getColor(R.color.colorPrimaryText));
+            resetClicks = false;
+            submitPressed = false;
         }
     }
 
@@ -390,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
     private void displayResetWarning(String warningReset) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context,warningReset, duration);
+        Toast toast = Toast.makeText(context, warningReset, duration);
         toast.show();
     }
 }
