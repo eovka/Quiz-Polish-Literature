@@ -303,24 +303,17 @@ public class MainActivity extends AppCompatActivity {
     private int calculateScore() {
         // Check the answer to the question 1.
         int points = 0;
-        thirteenthCentury = findViewById(R.id.thirteenth_century);
-        if (thirteenthCentury.isChecked()) {
+         if (thirteenthCentury.isChecked()) {
             points += 1;
         }
 
         // Check the answer to the question 2.
-        nobelPrizes = findViewById(R.id.number_of_prizes);
         String numberOfNobels = nobelPrizes.getText().toString();
         if (numberOfNobels.equals("4")) {
             points += 1;
         }
 
         // Check the correct answers to the question 3.
-        reymont = findViewById(R.id.reymont_checkbox);
-        milosz = findViewById(R.id.milosz_checkbox);
-        szymborska = findViewById(R.id.szymborska_checkbox);
-        sienkiewicz = findViewById(R.id.sienkiewicz_checkbox);
-
         if (reymont.isChecked()) {
             points += 1;
         }
@@ -335,24 +328,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Check the answer to the question 4.
-        witcher = findViewById(R.id.witcher_radiobutton);
         if (witcher.isChecked()) {
             points += 1;
         }
         // Check the answer to the question 5.
-        brzechwa = findViewById(R.id.brzechwa_radiobutton);
         if (brzechwa.isChecked()) {
             points += 1;
         }
         // Check the answer to the question 6.
-        mickiewicz = findViewById(R.id.adam_mickiewicz_edittext);
         String adamMickiewicz = mickiewicz.getText().toString();
         if (adamMickiewicz.equalsIgnoreCase("adam mickiewicz") || adamMickiewicz.equalsIgnoreCase("adam mickiewicz ")) {
             points += 1;
         }
 
         // Check the answer to the question 7.
-        thorgal = findViewById(R.id.thorgal_radiobutton);
         if (thorgal.isChecked()) {
             points += 1;
         }
